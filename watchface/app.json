@@ -1,0 +1,75 @@
+{
+    "configVersion": "v2",
+    "app": {
+        "appId": 166230526,
+        "appName": "optozorax watchface",
+        "appType": "watchface",
+        "version": {
+            "code": 1,
+            "name": "1.0"
+        },
+        "vender": "optozorax",
+        "description": "Copied and modified from Active Tape (link: https://4pda.to/forum/index.php?showtopic=1048744&view=findpost&p=116328288). Design by axidion, development by IgorKhudiakov",
+        "icon": "images/icon.png"
+    },
+    "permissions": [],
+    "runtime": {
+        "apiVersion": {
+            "compatible": "1.0.0",
+            "target": "1.0.1",
+            "minVersion": "1.0.0"
+        },
+        "type": "0"
+    },
+    "i18n": {
+        "en-US": {
+            "appName": "optozorax watchface",
+            "icon": "images/icon.png"
+        },
+        "ru-RU": {
+            "appName": "optozorax watchface",
+            "icon": "images/icon.png"
+        }
+    },
+    "defaultLanguage": "ru-RU",
+    "debug": false,
+    "module": {
+        "watchface": {
+            "path": "watchface/index",
+            "main": 1,
+            "editable": 1,
+            "lockscreen": 1,
+            "hightCost": 0,
+            "photoscreen": 0
+        }
+    },
+    "platforms": [{
+        "name": "l66",
+        "deviceSource": 260
+    }, {
+        "name": "l66w",
+        "deviceSource": 261
+    }, {
+        "name": "l66_1",
+        "deviceSource": 262
+    }, {
+        "name": "l66w_2",
+        "deviceSource": 263
+    }, {
+        "name": "l66_3",
+        "deviceSource": 264
+    }, {
+        "name": "l66_4",
+        "deviceSource": 265
+    }, {
+        "name": "l66_5",
+        "deviceSource": 266
+    }],
+    "designWidth": 192,
+    "packageInfo": {
+        "mode": "production",
+        "timeStamp": 1647263058,
+        "expiredTime": 172800,
+        "zpm": "2.1.49"
+    }
+}
