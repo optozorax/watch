@@ -67,11 +67,11 @@ function getTimerState2() {
   const state = hmFS.SysProGetChars("mmk_tb_timer_state");
   if(!state) return 0; // timer isn't started
 
-  const [id, startedTime, endTime] = state.split(":").map((v) => parseInt(v));
+  const [id, startedTime, endTime, duration] = state.split(":").map((v) => parseInt(v));
   const delay = Math.floor((endTime - Date.now()) / 1000);
   if(delay <= 0) return 0; // timer was out, but not cleaned for some reason
 
-  const state2 = hmFS.SysProGetInt("mmk_tb_timer_last");
+  const state2 = duration > 0 ? duration : hmFS.SysProGetInt("mmk_tb_timer_last");
   if (!state2) return 0;
 
   if (delay > state2) {
@@ -322,7 +322,7 @@ class TimerScreenCustom {
 		}
 
 		// Bundle data for persistant
-		const bundle = this.timerID + ":" + this.startedTime + ":" + this.endTime;
+		const bundle = this.timerID + ":" + this.startedTime + ":" + this.endTime + ":" + dx;
 		hmFS.SysProSetChars("mmk_tb_timer_state", bundle);
 		if (!this.input.startTime) hmFS.SysProSetInt("mmk_tb_timer_last", dx);
 
