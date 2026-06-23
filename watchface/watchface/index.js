@@ -83,6 +83,103 @@ try {
       const violetColor = 0x660099;
 
       const Text3Array = Array.from(Array(10), (v, k) => `images/text3/${k}.png`)
+      const fontArray = Array.from(Array(10), (v, k) => `images/text/${k}.png`)
+
+      if (screenType == aodScreen) {
+        const initialTimerState = getTimerState1();
+        if (!initialTimerState) return;
+
+        const aodTimeArray = Array.from(Array(10), (v, k) => `images/time/${k}.png`)
+
+        const time_widget = hmUI.createWidget(hmUI.widget.IMG_TIME, {
+          hour_zero: 1,
+          hour_startX: 8,
+          hour_startY: 96,
+          hour_array: aodTimeArray,
+          hour_space: 2,
+          hour_align: hmUI.align.LEFT,
+          hour_unit_sc: 'images/time/unit.png',
+          hour_unit_tc: 'images/time/unit.png',
+          hour_unit_en: 'images/time/unit.png',
+          minute_zero: 1,
+          minute_startX: 106,
+          minute_startY: 96,
+          minute_array: aodTimeArray,
+          minute_space: 2,
+          minute_align: hmUI.align.LEFT,
+          show_level: hmUI.show_level.ONLY_AOD
+        })
+
+        const angle_offset = 20;
+
+        const timer_bg_arc = hmUI.createWidget(hmUI.widget.ARC, {
+          x: 6,
+          y: 5,
+          w: 180,
+          h: 180,
+          start_angle: -180 + angle_offset,
+          end_angle: 0 - angle_offset,
+          color: DarkColor(blueColor, 25),
+          line_width: 15,
+          show_level: hmUI.show_level.ONLY_AOD,
+        })
+
+        const timer_arc = hmUI.createWidget(hmUI.widget.ARC, {
+          x: 6,
+          y: 5,
+          w: 180,
+          h: 180,
+          start_angle: -180 + angle_offset,
+          end_angle: -180 + angle_offset + (180. - angle_offset * 2) * getTimerState2(),
+          color: blueColor,
+          line_width: 15,
+          show_level: hmUI.show_level.ONLY_AOD,
+        })
+
+        const timer1 = hmUI.createWidget(hmUI.widget.TEXT_IMG, {
+          x: 65,
+          y: 31,
+          w: 60,
+          h: 23,
+          align_h: hmUI.align.CENTER_H,
+          align_v: hmUI.align.CENTER_V,
+          font_array: fontArray,
+          dot_image: 'images/text/colon.png',
+          negative_image: 'images/text/minus.png',
+          text: initialTimerState,
+          show_level: hmUI.show_level.ONLY_AOD
+        });
+
+        // 31x29
+        const timer_icon = hmUI.createWidget(hmUI.widget.IMG, {
+          x: 80.5,
+          y: -1,
+          src: 'images/timer.png',
+          show_level: hmUI.show_level.ONLY_AOD
+        })
+
+        function TimerUpdate() {
+          const state1 = getTimerState1();
+          time_widget.setProperty(hmUI.prop.VISIBLE, !!state1);
+          timer_bg_arc.setProperty(hmUI.prop.VISIBLE, !!state1);
+          timer_arc.setProperty(hmUI.prop.VISIBLE, !!state1);
+          timer1.setProperty(hmUI.prop.VISIBLE, !!state1);
+          timer_icon.setProperty(hmUI.prop.VISIBLE, !!state1);
+          if (!state1) return;
+
+          timer1.setProperty(hmUI.prop.TEXT, state1);
+          timer_arc.setProperty(hmUI.prop.MORE, {
+            end_angle: -180 + angle_offset + (180. - angle_offset * 2) * getTimerState2(),
+          })
+        }
+
+        TimerUpdate()
+        timer.createTimer(500, 1000, () => {
+          TimerUpdate()
+        });
+
+        return;
+      }
 
       const editColorPalette = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
         edit_id: 101,
@@ -136,7 +233,7 @@ try {
 
       let watchType = screenType == EditScreen ? 0 : editStepScaleColor.getProperty(hmUI.prop.CURRENT_TYPE)
 
-      if (screenType == wfScreen | screenType == aodScreen) {
+      if (screenType == wfScreen) {
 
         hmUI.createWidget(hmUI.widget.FILL_RECT, {
           x: 0,
@@ -147,8 +244,6 @@ try {
         })
         
         //-------------------------------------------------------
-
-        let fontArray = Array.from(Array(10), (v, k) => `images/text/${k}.png`)
 
         let timeArrayAoD = Array.from(Array(10), (v, k) => `images/time/h2${k}.png`)
         let HourArray = watchType == 1 ? Array.from(Array(10), (v, k) => `images/time/h${k}.png`) : Array.from(Array(10), (v, k) => `images/time/${k}.png`)
